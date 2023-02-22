@@ -1,0 +1,19 @@
+.search-section {
+    display: flex;
+
+    position:absolute;
+    top:0;
+    left:0;
+
+    margin-top: 2%;
+    margin-left: 2%;
+
+    .search-bar {
+        background-color: crimson;
+        min-width: 200%;
+    }
+
+    ::placeholder {
+        color: black;
+    }
+}
