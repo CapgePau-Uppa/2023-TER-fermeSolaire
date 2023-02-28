@@ -1,24 +1,3 @@
-.buttons-zoom {
-    display: flex;
-    flex-direction: column;
-
-    button {
-        margin : 10%;
-        border-radius: 50%;
-        height: 50px;
-        width: 50px;
-        font-size: 220%;
-        text-align: center;
-    }
-
-    position:absolute;
-    bottom:0;
-    right:0;
-
-    margin-bottom: 2%;
-    margin-right: 2%;
-}
-
 .buttons-filters {
     display: flex;
 

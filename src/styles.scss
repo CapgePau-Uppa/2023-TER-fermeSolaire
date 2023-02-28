@@ -8,6 +8,23 @@ body{
     margin : 0;
 }
 
-button {
-    background-color: crimson;
+.zoom-buttons{
+    display: flex;
+    flex-direction: column;
+
+    button {
+        margin : 10%;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        font-size: 220%;
+        text-align: center;
+        opacity: 70%;
+    }
+
+    position:absolute;
+    bottom:0;
+    right:0;
+    margin-bottom: 2%;
+    margin-right: 2%;
 }

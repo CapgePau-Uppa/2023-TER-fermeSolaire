@@ -14,6 +14,29 @@
         align-self: center;
         font-size: 100%;
     }
+
+    button {
+        background-color: gray;
+        border-radius: 5%;
+        border-width: 1px;
+    }
+}
+
+.container {
+    position:fixed;
+    padding:0;
+    margin:0;
+
+    top:0;
+    left:0;
+
+    width: 100%;
+    height: 100%;
+    background-color: lightslategrey;
+}
+
+a {
+    color: black;
 }
 
 .menu {

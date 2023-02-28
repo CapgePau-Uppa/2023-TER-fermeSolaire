@@ -18,7 +18,7 @@ import { ButtonsPurposeComponent } from './buttons-purpose/buttons-purpose.compo
     SearchBarComponent,
     LandingPageComponent,
     PurposePageComponent,
-    ButtonsPurposeComponent
+    ButtonsPurposeComponent,
   ],
   imports: [
     BrowserModule,
