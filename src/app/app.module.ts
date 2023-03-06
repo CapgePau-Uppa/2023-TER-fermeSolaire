@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CarteComponent } from './carte/carte.component';
+import { MapComponent } from './map/map.component';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -13,7 +13,7 @@ import { ButtonsPurposeComponent } from './buttons-purpose/buttons-purpose.compo
 @NgModule({
   declarations: [
     AppComponent,
-    CarteComponent,
+    MapComponent,
     ButtonsComponent,
     SearchBarComponent,
     LandingPageComponent,
