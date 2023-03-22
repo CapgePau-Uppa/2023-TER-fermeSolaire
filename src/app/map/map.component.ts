@@ -45,7 +45,7 @@ export class MapComponent implements OnInit, AfterViewChecked{
           source: new VectorSource({
             format: new GeoJSON(),
             //url: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-03-04T23%3A00%3A00Z+TO+2023-03-05T22%3A59%3A59Z%5D&lang=fr&rows=500&facet=nom&facet=tminsol&fields=tminsolc,coordonnees&format=geojson'
-            url: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees&format=geojson'
+            url: 'http://localhost:3000/geojson'
           }),
           visible: true,
           blur: 20,
@@ -71,7 +71,13 @@ export class MapComponent implements OnInit, AfterViewChecked{
       }
       this.overlay.setPosition(event.coordinate);
       this.map.addOverlay(this.overlay);
-    })
+    });
+
+    fetch('http://localhost:3000/geojson')
+  .then(response => response.json())
+  .then(data => console.log("Here is the GeoJSON fetched :", data))
+  .catch(error => console.error(error));
+
   }
 
   ngAfterViewChecked() {
