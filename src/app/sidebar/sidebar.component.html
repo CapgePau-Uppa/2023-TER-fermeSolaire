@@ -1,0 +1,12 @@
+<div class="sidebar" id="sidebar">
+    <button id="sidebar-button" class="sidebar-button" (click)="button_click()"><img src="assets/button_image.png" alt="bouton"></button>
+    <input type="search" class="searchbar" placeholder="Search..." [(ngModel)]="searchword"  (search)="search()">
+    <ol class="filters">
+        <ul><input type="checkbox"> Filtre 1</ul>
+        <ul><input type="checkbox"> Filtre 2</ul>
+        <ul><input type="checkbox"> Filtre 3</ul>
+        <ul><input type="checkbox"> Filtre 4</ul>
+        <ul><input type="checkbox"> Filtre 5</ul>
+    </ol>
+    <a routerLink="purpose">About</a>
+</div>
