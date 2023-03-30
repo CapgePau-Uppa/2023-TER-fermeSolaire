@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import Zoom from 'ol/control/Zoom.js';
@@ -20,11 +20,11 @@ import * as olProj from 'ol/proj';
   styleUrls: ['./map.component.scss']
 })
 
-export class MapComponent implements OnInit, AfterViewChecked{
+export class MapComponent implements OnInit/*AfterViewChecked*/ {
   map!: Map;
   overlay!: Overlay;
-  sidebar! : HTMLElement|null;
-  
+  sidebar!: HTMLElement | null;
+
 
   ngOnInit(): void {
     this.overlay = new Overlay({
@@ -44,8 +44,8 @@ export class MapComponent implements OnInit, AfterViewChecked{
         new HeatMap({
           source: new VectorSource({
             format: new GeoJSON(),
-            //url: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-03-04T23%3A00%3A00Z+TO+2023-03-05T22%3A59%3A59Z%5D&lang=fr&rows=500&facet=nom&facet=tminsol&fields=tminsolc,coordonnees&format=geojson'
-            url: 'http://localhost:3000/geojson'
+            url: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-03-04T23%3A00%3A00Z+TO+2023-03-05T22%3A59%3A59Z%5D&lang=fr&rows=500&facet=nom&facet=tminsol&fields=tminsolc,coordonnees&format=geojson'
+            //url: 'http://localhost:3000/geojson'
           }),
           visible: true,
           blur: 20,
@@ -64,33 +64,24 @@ export class MapComponent implements OnInit, AfterViewChecked{
     });
 
     this.map.on('click', (event) => {
-      var element : HTMLElement|undefined = this.overlay.getElement()
-      var degres : olCoordinate.Coordinate = olProj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')
-      if(element != undefined){
-        element.innerHTML = olCoordinate.toStringXY(degres,4);
+      var element: HTMLElement | undefined = this.overlay.getElement()
+      var degres: olCoordinate.Coordinate = olProj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')
+      if (element != undefined) {
+        element.innerHTML = olCoordinate.toStringXY(degres, 4);
       }
       this.overlay.setPosition(event.coordinate);
       this.map.addOverlay(this.overlay);
     });
 
-    fetch('http://localhost:3000/geojson')
-  .then(response => response.json())
-  .then(data => console.log("Here is the GeoJSON fetched :", data))
-  .catch(error => console.error(error));
+    // fetch('http://localhost:3000/geojson')
+    //   .then(response => response.json())
+    //   .then(data => console.log("Here is the GeoJSON fetched :", data))
+    //   .catch(error => console.error(error));
 
   fetch('http://localhost:3000/average')
   .then(response => response.json())
   .then(data => console.log("Here is the object fetched :", data))
   .catch(error => console.error(error));
 
-  }
-
-  ngAfterViewChecked() {
-    this.sidebar = document.getElementById('sidebar');
-  }
-
-  button_click(){
-    if (this.sidebar != null ) this.sidebar.classList.toggle("sidebar--deployed");
-    console.log(this.sidebar);
   }
 }

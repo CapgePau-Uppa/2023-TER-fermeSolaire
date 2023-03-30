@@ -12,43 +12,6 @@ main {
     z-index: 0;
 }
 
-.sidebar {
-    width: 15em;
-    height: 100vh;
-    background-color: black;
-    opacity: 0.65;
-
-    button {
-        img {
-            height: 20px;
-            width: 20px;
-            margin: 0px;
-            opacity: 0.95;
-        }
-
-        padding-top: 3px;
-        padding-bottom: 1px;
-        padding-right: 5px;
-        padding-left: 5px;
-        background-color: black;
-        border: 0px;
-        position: absolute;
-        margin-left: 18em;
-    }
-
-    position: absolute;
-    z-index: 5;
-    margin-top: 0%;
-    margin-left: 0%;
-    transform: translateX(-100%);
-    transition: 0.3s;
-
-}
-
-.sidebar--deployed {
-    transform: translateX(0);
-}
-
 .map-container {
     flex-grow: 1;
 }

@@ -9,6 +9,8 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { PurposePageComponent } from './purpose-page/purpose-page.component';
 import { ButtonsPurposeComponent } from './buttons-purpose/buttons-purpose.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,10 +21,12 @@ import { ButtonsPurposeComponent } from './buttons-purpose/buttons-purpose.compo
     LandingPageComponent,
     PurposePageComponent,
     ButtonsPurposeComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
