@@ -10,6 +10,12 @@ main {
     display: flex;
     flex-grow: 1;
     z-index: 0;
+
+    label {
+        font-size: large;
+        font-weight: 500;
+        text-align: center;
+    }
 }
 
 .map-container {
@@ -22,4 +28,33 @@ main {
     border-radius: 10px;
     border: 0px;
     padding: 5px 10px;
+}
+
+.scaleBar {
+    background: rgb(0, 0, 255);
+    background: linear-gradient(90deg, rgba(0, 0, 255, 1) 0%, rgba(0, 255, 255, 1) 25%, rgba(0, 255, 0, 1) 50%, rgba(255, 255, 0, 1) 75%, rgba(255, 0, 0, 1) 100%);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 3%;
+    margin-right: 10%;
+    min-height: 3%;
+    min-width: 15%;
+}
+
+.scaleBarMax {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 1.5%;
+    margin-right: 9.9%;
+}
+
+.scaleBarMin {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 1.5%;
+    margin-right: 24.5%;
+
 }
