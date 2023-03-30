@@ -78,6 +78,11 @@ export class MapComponent implements OnInit, AfterViewChecked{
   .then(data => console.log("Here is the GeoJSON fetched :", data))
   .catch(error => console.error(error));
 
+  fetch('http://localhost:3000/average')
+  .then(response => response.json())
+  .then(data => console.log("Here is the object fetched :", data))
+  .catch(error => console.error(error));
+
   }
 
   ngAfterViewChecked() {
