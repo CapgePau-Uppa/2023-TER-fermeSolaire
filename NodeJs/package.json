@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "2d-bicubic-interpolate": "^1.0.7",
     "request": "^2.88.2"
   }
 }

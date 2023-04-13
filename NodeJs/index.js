@@ -1,7 +1,8 @@
-const { count } = require('console');
 const http = require('http');
 const request = require('request');
 const fs = require('fs');
+const {interpolateArray} = require('2d-bicubic-interpolate');
+
 
 function calculateAverage(geojsonBody, propertyToAverage) {
     const geojson = JSON.parse(geojsonBody); // Parse the response body as JSON
@@ -53,20 +54,43 @@ function calculateAverage(geojsonBody, propertyToAverage) {
     // Write the result array to a file
     fs.writeFile('data', JSON.stringify(results), (err) => {
       if (err) throw err;
-      console.log('results array saved to data file');
+      console.log('Results array saved to data file');
     });
 
     return results;
 };
 
-function makeGeoJSON(params) {
-  // make the geojson from the data file
+function readFile() {  
+  return new Promise (resolve => {
+    fs.readFile('data',(err, data) => {
+    if (err) throw err;
+    resolve(JSON.parse(data));
+    })
+  });
+}
+
+async function getData(){
+  const data = await readFile();
+  let formatedData = [];
+  data.forEach(currentObject => {
+    formatedData.push({
+      x : currentObject.coordinates[0],
+      y : currentObject.coordinates[1],
+      z : currentObject.average
+    })
+  });
+  return formatedData;
+}
+
+function makeGeoJSON() {
+  console.log(interpolateArray(getData(), 1));
 };
 
 // Make an HTTP request to the GeoJSON endpoint
 request('https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees,date&format=geojson', (error, response, body) => {
   if (!error && response.statusCode === 200) {
-    calculateAverage(body,'tminsolc');
+    //calculateAverage(body,'tminsolc');
+    makeGeoJSON();
   } else {
     console.error(error);
   }

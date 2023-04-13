@@ -30,31 +30,39 @@ main {
     padding: 5px 10px;
 }
 
-.scaleBar {
-    background: rgb(0, 0, 255);
-    background: linear-gradient(90deg, rgba(0, 0, 255, 1) 0%, rgba(0, 255, 255, 1) 25%, rgba(0, 255, 0, 1) 50%, rgba(255, 255, 0, 1) 75%, rgba(255, 0, 0, 1) 100%);
+.scale {
+    display: flex;
     position: absolute;
     bottom: 0;
     right: 0;
-    margin-bottom: 3%;
-    margin-right: 10%;
-    min-height: 3%;
-    min-width: 15%;
+    margin-bottom: 1.7%;
+    margin-right: 8%;
+    flex-direction: column;
+
+    .scaleBar {
+        background: rgb(0, 0, 255);
+        background: linear-gradient(90deg, rgba(0, 0, 255, 1) 0%, rgba(0, 255, 255, 1) 25%, rgba(0, 255, 0, 1) 50%, rgba(255, 255, 0, 1) 75%, rgba(255, 0, 0, 1) 100%);
+        min-width: 15vw;
+        min-height: 3vh;
+    }
+
+    .labels {
+        font-size: larger;
+
+        .scaleBarMin {
+            position: relative;
+            left: 0;
+        }
+
+        .scaleBarMax {
+            position: relative;
+            right: 0;
+            float: right;
+            clear: right;
+        }
+    }
 }
 
-.scaleBarMax {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 1.5%;
-    margin-right: 9.9%;
-}
-
-.scaleBarMin {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 1.5%;
-    margin-right: 24.5%;
-
+.hidden {
+    display: none;
 }

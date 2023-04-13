@@ -15,15 +15,19 @@ import { MapService } from '../services/map.service';
   styleUrls: ['./map.component.scss']
 })
 
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit{
   map!: Map;
   overlay!: Overlay;
   sidebar!: HTMLElement | null;
+  scale!: HTMLElement | null;
 
   constructor(private layersListService : LayersListService, private mapService : MapService) {}
 
 
   ngOnInit(): void {
+    this.scale = document.getElementById('scale');
+    this.scale!.classList.toggle("hidden");
+
     this.overlay = new Overlay({
       element: document.getElementById('overlay') as HTMLElement,
       positioning: 'bottom-center'
@@ -37,7 +41,7 @@ export class MapComponent implements OnInit {
       let element: HTMLElement | undefined = this.overlay.getElement()
       let degres: olCoordinate.Coordinate = olProj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')
       if (element != undefined) {
-        element.innerHTML = olCoordinate.toStringXY(degres, 4) + "<p>Temperature au sol : ???</p><p>Nebulosité des nuages : ???</p>";
+        element.innerHTML = olCoordinate.toStringXY(degres, 10) + "<p>Temperature au sol : ???</p><p>Nebulosité des nuages : ???</p>";
       }
       this.overlay.setPosition(event.coordinate);
       this.map.addOverlay(this.overlay);
