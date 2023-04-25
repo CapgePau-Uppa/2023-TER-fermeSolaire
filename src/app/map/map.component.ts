@@ -18,6 +18,7 @@ import { MapService } from '../services/map.service';
 export class MapComponent implements OnInit{
   map!: Map;
   overlay!: Overlay;
+  htmlOverlay! : HTMLElement;
   sidebar!: HTMLElement | null;
   scale!: HTMLElement | null;
 
@@ -27,9 +28,10 @@ export class MapComponent implements OnInit{
   ngOnInit(): void {
     this.scale = document.getElementById('scale');
     this.scale!.classList.toggle("hidden");
+    this.htmlOverlay = document.getElementById('overlay')!;
 
     this.overlay = new Overlay({
-      element: document.getElementById('overlay') as HTMLElement,
+      element:  this.htmlOverlay!,
       positioning: 'bottom-center'
     });
 
@@ -41,11 +43,13 @@ export class MapComponent implements OnInit{
       let element: HTMLElement | undefined = this.overlay.getElement()
       let degres: olCoordinate.Coordinate = olProj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')
       if (element != undefined) {
-        element.innerHTML = olCoordinate.toStringXY(degres, 10) + "<p>Temperature au sol : ???</p><p>Nebulosité des nuages : ???</p>";
+        this.htmlOverlay.classList.toggle('hidden');
+        element.innerHTML = "<div>Coordonnées : " + olCoordinate.toStringXY(degres, 5) + "</div>" + "<div>Temperature au sol : ???</div><div>Nebulosité des nuages : ???</div>";
       }
       this.overlay.setPosition(event.coordinate);
       this.map.addOverlay(this.overlay);
     });
+
 
     // fetch('http://localhost:3000/geojson')
     //   .then(response => response.json())
@@ -56,6 +60,7 @@ export class MapComponent implements OnInit{
   .then(response => response.json())
   .then(data => console.log("Here is the object fetched :", data))
   .catch(error => console.error(error));
-
   }
+
+
 }

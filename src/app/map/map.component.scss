@@ -23,6 +23,8 @@ main {
 }
 
 .overlay {
+    display: flex;
+    flex-direction: column;
     background-color: rgba(0, 0, 0, 0.65);
     color: rgba(255, 255, 255, 0.85);
     border-radius: 10px;

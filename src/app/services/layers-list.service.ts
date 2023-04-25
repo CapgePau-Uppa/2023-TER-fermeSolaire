@@ -16,8 +16,8 @@ export class LayersListService {
     new HeatMap({
       source: new VectorSource({
         format: new GeoJSON(),
-        url: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-03-04T23%3A00%3A00Z+TO+2023-03-05T22%3A59%3A59Z%5D&lang=fr&rows=500&facet=nom&facet=tminsol&fields=tminsolc,coordonnees&format=geojson'
-        //url: 'http://localhost:3000/geojson'
+        //url: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-03-04T23%3A00%3A00Z+TO+2023-03-05T22%3A59%3A59Z%5D&lang=fr&rows=500&facet=nom&facet=tminsol&fields=tminsolc,coordonnees&format=geojson'
+        url: 'http://localhost:3000/average'
       }),
       visible: false,
       blur: 10,
