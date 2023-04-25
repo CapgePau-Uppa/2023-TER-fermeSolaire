@@ -1,7 +1,8 @@
 import http from 'http';
 import request from 'request';
-import fs, { write } from 'fs';
+import fs from 'fs';
 import * as turf from '@turf/turf';
+import { count } from 'console';
 
 function calculateAverage(geojsonBody, propertyToAverage) {
   const geojson = JSON.parse(geojsonBody); // Parse the response body as JSON
@@ -11,8 +12,6 @@ function calculateAverage(geojsonBody, propertyToAverage) {
   features.forEach(feature => {
     if (feature.properties[propertyToAverage] != undefined) {
       const coordinates = feature.geometry.coordinates;
-      // const value = feature.properties[propertyToAverage];
-      // const date = feature.properties['date'];
 
       // Verify if coordinates already exist in results table
       let existingCoord = false;
@@ -20,19 +19,20 @@ function calculateAverage(geojsonBody, propertyToAverage) {
         if (JSON.stringify(element.geometry.coordinates) == JSON.stringify(coordinates)) {
           existingCoord = true;
           element.properties[propertyToAverage] += feature.properties[propertyToAverage];
-          element.count += 1;
+          element.properties.count += 1;
         }
       });
 
       if (!existingCoord) {
-        feature.count = 1;
+        feature.properties.count = 1;
         results.features.push(feature);
         console.log('coordonnées crées');
       }
     }
   });
+
   results.features.forEach(element => {
-    element.properties[propertyToAverage] = element.properties[propertyToAverage] / element.properties.count;
+    element.properties[propertyToAverage] = element.properties[propertyToAverage] / element.properties['count'];
   });
 
   return results;
@@ -89,16 +89,16 @@ function makeGeoJSON(data, name) {
 
 
 //Make an HTTP request to the GeoJSON endpoint
-request('https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees,date&format=geojson', (error, response, body) => {
-  if (!error && response.statusCode === 200) {
-    makeGeoJSON(body, 'tminsolc');
-  } else {
-    console.error(error);
-  }
-});
+// request('https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees,date&format=geojson', (error, response, body) => {
+//   if (!error && response.statusCode === 200) {
+//     makeGeoJSON(body, 'tminsolc');
+//   } else {
+//     console.error(error);
+//   }
+// });
 
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   switch (req.url) {
     case '/geojson':
       request('  https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc&format=geojson', (error, response, body) => {
@@ -126,6 +126,15 @@ const server = http.createServer((req, res) => {
           console.error(error);
         }
       });
+      break;
+
+    case '/tminsolc':
+      console.log(getData('tminsolc'));
+      // res.writeHead(200, {
+      //   'Content-Type': 'application/json',
+      //   'Access-Control-Allow-Origin': '*' // to allow cross-origin requests
+      // });
+      // res.end(getData('tminsolc'));
       break;
 
     default:
