@@ -13,5 +13,10 @@
     "@turf/turf": "^6.5.0",
     "2d-bicubic-interpolate": "^1.0.7",
     "request": "^2.88.2"
+    "@types/node": "^18.15.11",
+    "2d-bicubic-interpolate": "^1.0.7",
+    "cubic-spline": "^3.0.3",
+    "request": "^2.88.2",
+    "split-array": "^1.0.1"
   }
 }

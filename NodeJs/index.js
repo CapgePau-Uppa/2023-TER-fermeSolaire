@@ -3,6 +3,7 @@ import request from 'request';
 import fs from 'fs';
 import * as turf from '@turf/turf';
 
+
 function calculateAverage(geojsonBody, propertyToAverage) {
   const geojson = JSON.parse(geojsonBody); // Parse the response body as JSON
   const features = geojson.features;
@@ -116,17 +117,29 @@ const server = http.createServer(async (req, res) => {
           res.end('Error fetching GeoJSON file');
         }
       });
+      
       break;
 
     case '/average':
+      
+
       console.log('ici la moyenne');
       request('https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees,date&format=geojson', (error, response, body) => {
         if (!error && response.statusCode === 200) {
           //calculateAverage(body, 'tminsolc');
         } else {
-          console.error(error);
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*' // to allow cross-origin requests
+        });
+          res.end(data);
         }
       });
+
+      console.log('ici les valeurs interpolées');
+
+      const geojsonAveraged = fs.readFileSync('data.geojson', 'utf8');
+      interpolateGeoJSON(geojsonAveraged, 'tminsolc');
       break;
 
     case '/tminsolc':
