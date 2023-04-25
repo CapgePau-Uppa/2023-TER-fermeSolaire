@@ -72,12 +72,16 @@ async function getData(fileName) {
   const data = await readFile(fileName);
   return data;
 }
-
+/**
+ * Create a new file 'name' containing the interpolated GeoJSON for propertyToInterpolate.
+ * @param {JSON} data  The JSON containing the data from the API (should be removed)
+ * @param {String} name  The name of the property you want to interpolate
+ */
 function makeGeoJSON(data, name) {
   (async () => {
     deleteFile(name);
     let json = calculateAverage(data, name);
-    const options = { gridType: 'points', property: 'tminsolc', units: 'kilometers' };
+    const options = { gridType: 'points', property: name, units: 'kilometers' };
     const grid = turf.interpolate(json, 100, options);
     writeFile(name, grid);
   })()
