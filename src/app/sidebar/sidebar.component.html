@@ -1,9 +1,9 @@
 <div class="sidebar" id="sidebar">
     <button id="sidebar-button" class="sidebar-button" (click)="button_click()"><img src="assets/button_image.png" alt="bouton"></button>
     <input type="search" class="searchbar" placeholder="Search..." [(ngModel)]="searchword"  (search)="search()">
-    <ol class="filters">
-        <ul><input type="checkbox" id="groundTemp" (click)="checkGroundTemp()"> Temperature au Sol</ul>
-        <ul><input type="checkbox" id="nebulosity" (click)="checkNebulosity()"> Nébulosité</ul>
-    </ol>
+    <div class="filters">
+        <p>Filtres : </p>
+        <app-filter *ngFor="let filter of filters" [layer] = "filter"></app-filter>
+    </div>
     <a routerLink="purpose">About</a>
 </div>

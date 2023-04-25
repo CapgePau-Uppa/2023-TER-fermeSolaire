@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
 import { PurposePageComponent } from './purpose-page/purpose-page.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
-  {path: '', component: LandingPageComponent},
+  {path: '', component: MapComponent},
   {path: 'purpose', component: PurposePageComponent}
 ];
 

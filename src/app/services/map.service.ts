@@ -5,6 +5,8 @@ import View from 'ol/View';
 import { fromLonLat } from 'ol/proj';
 import { LayersListService } from './layers-list.service';
 import ScaleLine from 'ol/control/ScaleLine.js';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
 
 
 @Injectable({
@@ -12,19 +14,27 @@ import ScaleLine from 'ol/control/ScaleLine.js';
 })
 export class MapService {
 
-  constructor(private layersListService : LayersListService) {}
-
   map = new Map({
     view: new View({
       center: fromLonLat([-0.363269, 43.319188]),
       zoom: 5,
     }),
-    layers: this.layersListService.LayersList,
+    layers: [new TileLayer({
+      source: new OSM(),
+    })],
     controls: [
       new Zoom({
         className: "zoom-buttons"
       }),
     ]
   });
+
+  constructor(private layersListService : LayersListService) {
+    layersListService.LayersList.forEach(element => {
+      this.map.addLayer(element);
+    });
+  }
+
+  
 
 }

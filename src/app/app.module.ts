@@ -11,6 +11,7 @@ import { PurposePageComponent } from './purpose-page/purpose-page.component';
 import { ButtonsPurposeComponent } from './buttons-purpose/buttons-purpose.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     PurposePageComponent,
     ButtonsPurposeComponent,
     SidebarComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,
