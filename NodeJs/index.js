@@ -2,7 +2,6 @@ import http from 'http';
 import request from 'request';
 import fs from 'fs';
 import * as turf from '@turf/turf';
-import { count } from 'console';
 
 function calculateAverage(geojsonBody, propertyToAverage) {
   const geojson = JSON.parse(geojsonBody); // Parse the response body as JSON
@@ -12,22 +11,24 @@ function calculateAverage(geojsonBody, propertyToAverage) {
   features.forEach(feature => {
     if (feature.properties[propertyToAverage] != undefined) {
       const coordinates = feature.geometry.coordinates;
-
-      // Verify if coordinates already exist in results table
-      let existingCoord = false;
-      results.features.forEach((element) => {
-        if (JSON.stringify(element.geometry.coordinates) == JSON.stringify(coordinates)) {
-          existingCoord = true;
-          element.properties[propertyToAverage] += feature.properties[propertyToAverage];
-          element.properties.count += 1;
-        }
-      });
-
-      if (!existingCoord) {
-        feature.properties.count = 1;
-        results.features.push(feature);
-        console.log('coordonnées crées');
-      }
+     if(coordinates[0] < 9.50245 && coordinates[0] > -6.12010 && coordinates[1] > 41.53257 && coordinates[1] < 51.70605 )
+     {
+       // Verify if coordinates already exist in results table
+       let existingCoord = false;
+       results.features.forEach((element) => {
+         if (JSON.stringify(element.geometry.coordinates) == JSON.stringify(coordinates)) {
+           existingCoord = true;
+           element.properties[propertyToAverage] += feature.properties[propertyToAverage];
+           element.properties.count += 1;
+         }
+       });
+ 
+       if (!existingCoord) {
+         feature.properties.count = 1;
+         results.features.push(feature);
+         console.log('coordonnées crées');
+       }
+     }
     }
   });
 
@@ -82,20 +83,20 @@ function makeGeoJSON(data, name) {
     deleteFile(name);
     let json = calculateAverage(data, name);
     const options = { gridType: 'points', property: name, units: 'kilometers' };
-    const grid = turf.interpolate(json, 100, options);
+    const grid = turf.interpolate(json, 10, options);
     writeFile(name, grid);
   })()
 };
 
 
 //Make an HTTP request to the GeoJSON endpoint
-// request('https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees,date&format=geojson', (error, response, body) => {
-//   if (!error && response.statusCode === 200) {
-//     makeGeoJSON(body, 'tminsolc');
-//   } else {
-//     console.error(error);
-//   }
-// });
+request('https://public.opendatasoft.com/api/records/1.0/search/?dataset=donnees-synop-essentielles-omm&q=date%3A%5B2023-02-28T23%3A00%3A00Z+TO+2023-03-08T22%3A59%3A59Z%5D&rows=4000&facet=date&facet=nom&facet=temps_present&facet=libgeo&facet=nom_epci&facet=nom_dept&facet=nom_reg&fields=tminsolc,coordonnees,date&format=geojson', (error, response, body) => {
+  if (!error && response.statusCode === 200) {
+    makeGeoJSON(body, 'tminsolc');
+  } else {
+    console.error(error);
+  }
+});
 
 
 const server = http.createServer(async (req, res) => {
@@ -129,12 +130,11 @@ const server = http.createServer(async (req, res) => {
       break;
 
     case '/tminsolc':
-      console.log(getData('tminsolc'));
-      // res.writeHead(200, {
-      //   'Content-Type': 'application/json',
-      //   'Access-Control-Allow-Origin': '*' // to allow cross-origin requests
-      // });
-      // res.end(getData('tminsolc'));
+      res.writeHead(200, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*' // to allow cross-origin requests
+      });
+      res.end(JSON.stringify(await getData('tminsolc')));
       break;
 
     default:

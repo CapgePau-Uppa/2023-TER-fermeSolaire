@@ -20,10 +20,11 @@ export class LayersListService {
         url: 'http://localhost:3000/tminsolc'
       }),
       visible: false,
-      blur: 10,
-      radius: 5,
+      blur: 0,
+      radius: 30,
       weight: function (feature) {
-        return ((feature.get('tminsolc') + 10) / 20);
+        console.log((feature.getProperties()['tminsolc'] + 3) / 7);
+        return ((feature.getProperties()['tminsolc'] + 3) / 7);
       },
       properties : {text : "Température minimum au sol", min : "-10°" , max : "10°" , id : "tempS"}
     }),
