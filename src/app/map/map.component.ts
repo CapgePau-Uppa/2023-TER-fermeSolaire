@@ -5,9 +5,7 @@ import * as olCoordinate from 'ol/coordinate';
 import * as olProj from 'ol/proj';
 import { LayersListService } from '../services/layers-list.service';
 import { MapService } from '../services/map.service';
-
-
-
+import { defaultLineCap } from 'ol/render/canvas';
 
 @Component({
   selector: 'app-map',
@@ -15,14 +13,15 @@ import { MapService } from '../services/map.service';
   styleUrls: ['./map.component.scss']
 })
 
-export class MapComponent implements OnInit{
+export class MapComponent implements OnInit {
   map!: Map;
   overlay!: Overlay;
-  htmlOverlay! : HTMLElement;
+  htmlOverlay!: HTMLElement;
   sidebar!: HTMLElement | null;
   scale!: HTMLElement | null;
 
-  constructor(private layersListService : LayersListService, private mapService : MapService) {}
+
+  constructor(private layersListService: LayersListService, private mapService: MapService) { }
 
 
   ngOnInit(): void {
@@ -31,13 +30,13 @@ export class MapComponent implements OnInit{
     this.htmlOverlay = document.getElementById('overlay')!;
 
     this.overlay = new Overlay({
-      element:  this.htmlOverlay!,
+      element: this.htmlOverlay!,
       positioning: 'bottom-center'
     });
 
     this.map = this.mapService.map;
     this.map.setTarget('map');
-    
+
 
     this.map.on('click', (event) => {
       let element: HTMLElement | undefined = this.overlay.getElement()
@@ -50,17 +49,30 @@ export class MapComponent implements OnInit{
       this.map.addOverlay(this.overlay);
     });
 
+    let currZoom = this.map.getView().getZoom();
 
-    // fetch('http://localhost:3000/geojson')
-    //   .then(response => response.json())
-    //   .then(data => console.log("Here is the GeoJSON fetched :", data))
-    //   .catch(error => console.error(error));
-
-  fetch('http://localhost:3000/average')
-  .then(response => response.json())
-  .then(data => console.log("Here is the object fetched :", data))
-  .catch(error => console.error(error));
+    this.map.on('moveend', (event) => {
+      let newZoom = this.map.getView().getZoom();
+      if (currZoom != newZoom && newZoom != undefined) {
+        console.log(currZoom + ' -> ' + newZoom);
+        this.layersListService.updateRadius(this.selectRadiusSize(newZoom))
+        currZoom = newZoom;
+      }
+    })
   }
 
-
+  selectRadiusSize(zoom: number): number {
+    if(zoom > 7) return(Math.pow(2,zoom- 5.86));
+    else {
+      if (zoom < 6) 
+      {
+        return(Math.pow(2,zoom-5.5));
+      }
+      if (zoom <= 7) 
+      {
+        return(Math.pow(2,zoom-5.5));
+      }
+      return(Math.pow(2,zoom-5));
+    }
+  }
 }
