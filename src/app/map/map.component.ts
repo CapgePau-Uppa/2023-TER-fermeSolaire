@@ -64,15 +64,18 @@ export class MapComponent implements OnInit {
   selectRadiusSize(zoom: number): number {
     if(zoom > 7) return(Math.pow(2,zoom- 5.86));
     else {
-      if (zoom < 6) 
+      if (zoom <= 5.5) 
       {
-        return(Math.pow(2,zoom-5.5));
+        return(Math.pow(2,zoom-4.7));
       }
-      if (zoom <= 7) 
+      if (zoom <= 6.5) 
       {
-        return(Math.pow(2,zoom-5.5));
+        return(Math.pow(2,zoom-5));
       }
-      return(Math.pow(2,zoom-5));
+      if(zoom <= 7){
+        return(Math.pow(2,zoom-5.3))
+      }
+      return(Math.pow(2,zoom-4));
     }
   }
 }

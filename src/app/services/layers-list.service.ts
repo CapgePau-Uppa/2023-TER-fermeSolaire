@@ -15,7 +15,7 @@ import TileSource from 'ol/source/Tile';
 export class LayersListService {
 
   Blur: number = 0;
-  radius: number = 2;
+  radius: number = Math.pow(2,5-4.7);
 
 
   LayersList: Layer[] = [
