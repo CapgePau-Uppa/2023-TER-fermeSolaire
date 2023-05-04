@@ -86,6 +86,30 @@ function makeGeoJSON(data, name) {
     const options = { gridType: 'points', property: name, units: 'kilometers' };
     const grid = turf.interpolate(json, 10, options);
     writeFile(name, grid);
+    let dateFileName = name + 'Date';
+    const dateFileData = {
+      date: null,
+    };
+    let dateFile;
+    json.features.forEach(async feature => {
+      dateFileData.date = feature.properties.date;
+      console.log(new Date(dateFileData.date));
+      fs.access(dateFileName, fs.constants.F_OK, async (err) => {
+        if (err){
+          console.log("creating file");
+          writeFile(dateFileName, dateFileData);
+        } else {
+          dateFile = await getData(dateFileName);
+          console.log(new Date(dateFileData.date));
+          if (new Date(dateFileData.date) > new Date(dateFile.date)){
+            console.log('later date');
+            writeFile(dateFileName, dateFileData);
+          }
+        }
+      });
+    });
+    console.log(dateFileData);
+    
   })()
 };
 
@@ -138,8 +162,8 @@ const server = http.createServer(async (req, res) => {
 
       console.log('ici les valeurs interpolées');
 
-      const geojsonAveraged = fs.readFileSync('data.geojson', 'utf8');
-      interpolateGeoJSON(geojsonAveraged, 'tminsolc');
+      /*const geojsonAveraged = fs.readFileSync('data.geojson', 'utf8');
+      interpolateGeoJSON(geojsonAveraged, 'tminsolc');*/
       break;
 
     case '/tminsolc':
@@ -162,3 +186,5 @@ const server = http.createServer(async (req, res) => {
 server.listen(3000, () => {
   console.log('Server listening on port 3000');
 });
+
+
