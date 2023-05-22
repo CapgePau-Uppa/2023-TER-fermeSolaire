@@ -1,6 +1,10 @@
 # 2023-TER-fermeSolaire
 
-This application is a website designed to optimise the placement of solar pannels 
+This application is a website designed to optimise the placement of solar pannels.
+
+It is designed for educationnal purposes and is completly open-sources.
+
+Feel free to test and or modify it.
 
 To test the website : 
 
